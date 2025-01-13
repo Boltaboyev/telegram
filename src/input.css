@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fff;
+}
+
+button, select, input {
+    outline: none;
+}
+
+#left + div {
+    transition: .3s;
+}
+
+#left:checked + div {
+    left: 0;
+}
+
+.container2 {
+    width: 90%;
+    margin: 0 auto;
+}
+
+@media (min-width: 1400px) {
+    .container2 {
+        width: 1350px;
+    }
+}
+
+#circleAvatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: auto;
+    border-radius: 50%;
+}
+
+.ownMessage {
+    max-width: 55%;
+    width: fit-content;
+    background-color: #2b5278;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.otherMessage {
+    position: relative;
+    max-width: 50%;
+    width: fit-content;
+    background-color: #1d2633;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    align-self: flex-end;
+    padding-bottom: 20px;
+}
+
+.ownMessageTime {
+    position: absolute;
+    right: 5px;
+    bottom: 2px;
+    font-size: 10px;
+    color: #c3c6c9;
+}
+
+.otherMessageTime {
+    position: absolute;
+    left: 5px;
+    bottom: 2px;
+    font-size: 10px;
+    color: #8f8f8f;
+}
