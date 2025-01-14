@@ -48,11 +48,11 @@ button, select, input {
     border-radius: 50%;
 }
 
-.ownMessage {
+.otherMessage {
     max-width: 55%;
     width: fit-content;
-    background-color: #2b5278;
     color: white;
+    background-color: #1d2633;
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
@@ -61,11 +61,11 @@ button, select, input {
     padding-bottom: 20px;
 }
 
-.otherMessage {
+.ownMessage {
     position: relative;
     max-width: 50%;
     width: fit-content;
-    background-color: #1d2633;
+    background-color: #2b5278;
     color: white;
     padding: 10px;
     margin: 10px;
@@ -75,7 +75,7 @@ button, select, input {
     padding-bottom: 20px;
 }
 
-.ownMessageTime {
+.otherMessageTime {
     position: absolute;
     right: 5px;
     bottom: 2px;
@@ -83,7 +83,7 @@ button, select, input {
     color: #c3c6c9;
 }
 
-.otherMessageTime {
+.ownMessageTime {
     position: absolute;
     left: 5px;
     bottom: 2px;

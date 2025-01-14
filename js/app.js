@@ -15,7 +15,6 @@ const logoutBtn = document.getElementById("logoutBtn");
 const loggedInUser = JSON.parse(localStorage.getItem("user"));
 const userId = loggedInUser.id;
 
-// Foydalanuvchi ma'lumotlarini yuklash
 fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
     .then((res) => res.json())
     .then((user) => {
@@ -30,7 +29,6 @@ fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
         console.error(err);
     });
 
-// Boshqa foydalanuvchilar ma'lumotlarini yuklash
 fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
     .then((res) => res.json())
     .then((users) => {
