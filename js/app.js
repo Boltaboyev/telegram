@@ -169,7 +169,7 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                             .then((res) => res.json())
                             .then(() => {
                                 messageText.value = ""
-                                fetchMessages()
+                                showMessages()
                             })
                             .catch((err) => console.log(err))
                     })
@@ -177,7 +177,7 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                     const messageBox = document.getElementById("messageBox")
                     let lastMessageId = 0
 
-                    function fetchMessages() {
+                    function showMessages() {
                         fetch(
                             "https://6784a0ac1ec630ca33a4f300.mockapi.io/message"
                         )
@@ -230,7 +230,7 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                             })
                     }
 
-                    fetchMessages()
+                    showMessages()
                 }
             })
         })
