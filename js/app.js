@@ -240,3 +240,57 @@ logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("user")
     location.reload()
 })
+
+// edit profile info
+
+const editForm = document.getElementById("editForm")
+const editAvatarImg = document.getElementById("editAvatarImg")
+const editAvatarCurrentImg = document.getElementById("editAvatarCurrentImg")
+const editName = document.getElementById("editName")
+const editPhone = document.getElementById("editPhone")
+const editPassword = document.getElementById("editPassword")
+
+const editPencil = document.getElementById("editBtn")
+const editFormDisplay = document.getElementById("editFormDisplay")
+const closeEditForm = document.querySelectorAll(".closeEditBtn")
+
+editPencil.addEventListener("click", () => {
+    editFormDisplay.style.display = "flex"
+
+    fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
+        .then((res) => res.json())
+        .then((res) => {
+            editAvatarCurrentImg.src = res.avatar
+            ;(editName.value = res.username),
+                (editPhone.value = res.phoneNum),
+                (editPassword.value = res.password)
+        })
+        .catch((err) => console.log(err))
+})
+
+editForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username: editName.value.trim(),
+            password: editPassword.value.trim(),
+            phoneNum: editPhone.value.trim()
+        }),
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            location.reload()
+        })
+        .catch((err) => console.log(err))
+})
+
+closeEditForm.forEach((el) => {
+    el.addEventListener("click", () => {
+        editFormDisplay.style.display = "none"
+    })
+})
