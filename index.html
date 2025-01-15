@@ -19,7 +19,6 @@
         <!-- left -->
         <div class="relative flex flex-col  h-full bg-[#17212b] border-r border-[#00000065]  shadow-xl md:block transform transition-all duration-500 ease-in-out"
             style="width: 24rem">
-
             <!-- left navbar -->
             <div class="flex justify-between px-3 pt-1 text-white">
                 <div class="flex items-center w-full py-2">
@@ -40,9 +39,8 @@
                 </div>
             </div>
 
-
             <!-- left links -->
-            <div class="">
+            <div>
                 <ul class="flex flex-row items-center px-2 list-none select-none">
                     <li class="flex-auto px-1 mx-1 text-center rounded-t-lg cursor-pointer last:mr-0 group text-white">
                         <a
@@ -77,44 +75,12 @@
                 </ul>
             </div>
 
-
             <!-- left users -->
             <div
                 class="relative mt-2 mb-4 overflow-x-hidden overflow-y-auto scrolling-touch lg:max-h-sm scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
-                <div class="flex flex-col  w-full h-screen px-2 select-none">
-
+                <div id="sidebarUsers" class="flex flex-col gap-[10px]  w-full h-screen px-2 select-none">
 
                     <!-- users -->
-                    <div class="flex flex-no-wrap items-center pr-3 rounded-lg cursor-pointer mt-200 py-65 bg-[#2b5278]"
-                        style="padding-top: 0.65rem; padding-bottom: 0.65rem">
-
-                        <div class="flex justify-between w-full">
-                            <div class="flex justify-between w-full">
-
-                                <div
-                                    class="relative flex items-center justify-center w-12 h-12 ml-2 mr-3 text-xl font-semibold text-white bg-blue-500 rounded-full flex-no-shrink">
-                                    <img id="chatUserAvatar" class="object-cover w-12 h-12 rounded-full" src="" alt="">
-                                    <div class="absolute bottom-0 right-0 flex items-center justify-center bg-white rounded-full"
-                                        style="width: 0.80rem; height: 0.80rem">
-                                        <div class="bg-green-500 rounded-full" style="width: 0.6rem; height: 0.6rem">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="items-center flex justify-between flex-1 min-w-0">
-                                    <div class="flex flex-col gap-0">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <h2 class="text-sm font-semibold text-white" id="chatUserName"></h2>
-                                        </div>
-                                        <div class="flex text-[#cfcfcf] justify-between text-sm leading-none truncate">
-                                            <span>Send message</span>
-                                        </div>
-                                    </div>
-                                    <i class='bx bx-check-double text-[20px] text-white'></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -129,58 +95,20 @@
 
         </div>
 
-        <!-- center -->
-        <div class="relative flex flex-col flex-1">
 
-            <!-- center top -->
-            <div class="z-20 flex justify-between items-center w-full p-3 bg-[#17212b] border-b border-[#00000065]">
-                <div class="flex justify-start items-center gap-[10px]">
-                    <!-- user avatar -->
-                    <div class="w-[40px] h-[40px] overflow-hidden  rounded-full cursor-pointer">
-                        <img id="circleAvatar" src="">
-                    </div>
-                    <!-- user name -->
-                    <div class="flex flex-col justify-center flex-1 overflow-hidden cursor-pointer">
-                        <h1 id="centerUserName"
-                            class="overflow-hidden text-base font-medium leading-tight text-white whitespace-no-wrap">
-                        </h1>
-                        <p class="text-[12px] leading-tight text-green-500">
-                            Online</p>
-                    </div>
-                </div>
-
-
-                <div class="flex justify-center items-center gap-[20px]">
-                    <i class="bx bx-search text-[20px] text-white cursor-pointer"></i>
-                    <i class='bx bx-dots-vertical-rounded text-[20px] text-white cursor-pointer'></i>
-                </div>
-            </div>
-
-            <!-- messages -->
-            <div id="messageBox"
-                class="bg-[#0e1621] h-full flex relative flex-col overflow-x-hidden overflow-y-scroll pb-[100px]">
-            </div>
-
-            <!-- text input  -->
-            <form id="messageForm" class="absolute bg-[#17212b] bottom-0 bg-gray-200x flex items-center w-full p-2">
-                <input id="messageText" type="text" required
-                    class="w-full py-2 px-[10px] pr-[50px] text-sm bg-transparent placeholder-gray-500 text-white"
-                    style="border-radius: 25px" placeholder="Write a message...">
-
-                <span class="absolute inset-y-0 right-0 flex items-center pr-6">
-                    <button type="submit" class="text-[#2b5278] hover:text-[#3463aa]">
-                        <i class='bx bxs-send text-[25px]'></i>
-                    </button>
-                </span>
-            </form>
+        <!-- Main Chat Container -->
+        <div id="chatBox" class="relative flex flex-col flex-1">
+            <!-- default bg -->
+            <div id="defaultBg" class="w-full h-full bg-[#0e1621]"></div>
         </div>
+
     </div>
 
 
-    <!-- left profile -->
+    <!-- sidebar profile -->
     <input type="checkbox" name="" id="left" class="hidden">
-    <div class="h-full px-[10px] fixed left-[-100%] text-[#fff] flex flex-col pb-2 bg-[#2b5278] border-[#00000065] xl:block"
-        style="width: 24rem">
+    <div
+        class="h-full px-[10px] fixed left-[-100%] text-[#fff] flex flex-col pb-2 bg-[#2b5278] border-[#00000065] xl:block w-[24rem]">
         <div class="flex items-center justify-between w-full">
             <label for="left" class="cursor-pointer flex justify-center items-center">
                 <i class="bx bx-x text-[25px]"></i>
@@ -203,7 +131,10 @@
                 <button type="button" class="content-center block w-32 h-32 overflow-hidden text-center rounded-full">
 
                     <!-- user avatar  -->
-                    <img id="ownAvatar" class="content-center object-cover w-full h-full  rounded-full" alt="">
+                    <input type="file" id="editAvatar" class="hidden">
+                    <label for="editAvatar" class="cursor-pointer">
+                        <img id="ownAvatar" class="content-center object-cover w-full h-full  rounded-full" alt="">
+                    </label>
                 </button>
             </div>
 

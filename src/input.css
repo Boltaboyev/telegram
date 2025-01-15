@@ -10,11 +10,11 @@
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #fff;
+    background: #1d2633;
 }
 
 button, select, input {
@@ -89,4 +89,10 @@ button, select, input {
     bottom: 2px;
     font-size: 10px;
     color: #8f8f8f;
+}
+
+.newChatDiv {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 30px;
 }
