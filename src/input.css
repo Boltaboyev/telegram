@@ -59,6 +59,7 @@ button, select, input {
     border-bottom-left-radius: 0;
     position: relative;
     padding-bottom: 20px;
+    user-select: none;
 }
 
 .ownMessage {
@@ -73,6 +74,7 @@ button, select, input {
     border-bottom-right-radius: 0;
     align-self: flex-end;
     padding-bottom: 20px;
+    user-select: none;
 }
 
 .otherMessageTime {
@@ -95,4 +97,12 @@ button, select, input {
     height: 100%;
     width: 100%;
     padding-bottom: 30px;
+}
+
+.deleteMessageBg {
+    background: rgb(0, 102, 255);
+}
+
+.showBtn {
+    top: 0;
 }

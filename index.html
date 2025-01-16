@@ -128,13 +128,21 @@
 
         <div>
             <div class="flex justify-center mb-4">
-                <button type="button" class="content-center block w-32 h-32 overflow-hidden text-center rounded-full">
-
+                <div id="showAvatarImg"
+                    class="cursor-pointer content-center block w-32 h-32 overflow-hidden text-center rounded-full">
                     <!-- user avatar  -->
-                    <input type="file" id="editAvatar" class="hidden">
-                    <label for="editAvatar" class="cursor-pointer">
-                        <img id="ownAvatar" class="content-center object-cover w-full h-full  rounded-full" alt="">
-                    </label>
+                    <img id="ownAvatar" class="content-center object-cover w-full h-full  rounded-full" alt="">
+                </div>
+            </div>
+
+            <!-- avatar box -->
+            <div id="avatarImgDiv" class="hidden h-[100vh] w-full justify-center items-center fixed top-0 left-0 bg-[#000000b9] backdrop-blur-[5px] z-[999999]">
+                <i id="closeAvatarImgDiv" class="bx bx-x text-white absolute top-[20px] right-[20px] text-[40px] cursor-pointer"></i>
+                
+                <img id="currentAvatarImg" src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="" class="h-[80%] w-[80%] object-contain">
+                
+                <button id="deleteAvatarImgBtn" class="bg-[#2b5278] p-[5px] flex justify-center items-center gap-[4px] font-[500] rounded-md cursor-pointer absolute bottom-[20px] right-[20px]">
+                    Delete avatar <i class="bx bx-trash"></i>
                 </button>
             </div>
 
@@ -149,7 +157,7 @@
                 </div>
                 <div>
                     <div class="mt-1 ml-4 mr-auto text-sm font-semibold leading-none text-[#17212b]">Username</div>
-                    <div class="ml-4 mr-auto text-sm " id="userInfoBottomName"></div>
+                    <div class="ml-4 mr-auto text-sm " id="userInfoBottomName">@username</div>
                 </div>
             </div>
 
@@ -159,7 +167,7 @@
                 </div>
                 <div class="ml-4">
                     <div class="mt-1 mr-auto text-sm font-semibold leading-none text-[#17212b]">Phone</div>
-                    <div class="mr-auto text-sm" id="userTel">+1 38594 38538</div>
+                    <div class="mr-auto text-sm" id="userTel">+998(00)-000-00-00</div>
                 </div>
             </div>
 
@@ -171,6 +179,8 @@
             <i class="bx bx-exit"></i>
         </button>
     </div>
+
+
 
 
     <!-- edit form -->
@@ -185,7 +195,7 @@
             <div class="self-center relative">
                 <div class="h-[130px] w-[130px] rounded-full overflow-hidden">
                     <img id="editAvatarCurrentImg"
-                        src="https://liceducation.com/wp-content/uploads/2016/04/Avatar-Male.png" alt=""
+                        src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt=""
                         class="h-full w-full object-cover">
                 </div>
                 <label for="editAvatarImg"
@@ -199,7 +209,7 @@
                 class="cursor-pointer hover:bg-[#232e3c] p-[10px] rounded-md flex text-white justify-between items-center gap-[30px]">
                 <i class="bx bx-user text-[25px]"></i>
                 <input required id="editName" type="text"
-                    class="border-none outline-none bg-transparent text-[20px] text-end" value="@otabek">
+                    class="border-none outline-none bg-transparent text-[20px] text-end" value="@username">
             </label>
 
             <hr class="opacity-5">
@@ -208,7 +218,7 @@
                 class="flex text-white justify-between items-center gap-[30px] hover:bg-[#232e3c] cursor-pointer p-[10px] rounded-md">
                 <i class="bx bx-phone text-[25px]"></i>
                 <input required id="editPhone" type="text"
-                    class="border-none outline-none bg-transparent text-[20px] text-end" value="+998(93)-338-07-88">
+                    class="border-none outline-none bg-transparent text-[20px] text-end" value="+998(00)-000-00-00">
             </label>
 
             <hr class="opacity-5">
@@ -217,7 +227,7 @@
                 class="flex text-white justify-between items-center gap-[30px] hover:bg-[#232e3c] cursor-pointer p-[10px] rounded-md">
                 <i class="bx bx-lock-alt text-[25px]"></i>
                 <input required id="editPassword" type="password"
-                    class="border-none outline-none bg-transparent text-[20px] text-end" value="123">
+                    class="border-none outline-none bg-transparent text-[20px] text-end">
             </label>
 
             <button

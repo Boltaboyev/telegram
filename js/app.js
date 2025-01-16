@@ -86,22 +86,28 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                     (user) => user.id === clickedUserId
                 )
 
-                if (clickedUser) {
-                    let newChatDiv = document.createElement("div")
-                    newChatDiv.classList.add("newChatDiv")
+                // new chat -----
+                let newChatDiv = document.createElement("div")
+                newChatDiv.classList.add("newChatDiv")
 
-                    newChatDiv.innerHTML = `
+                newChatDiv.innerHTML = `
                         <!-- Center top -->
-                        <div class="z-20 flex justify-between items-center w-full p-3 bg-[#17212b] border-b border-[#00000065]">
+                            <div id="deleteBtnDiv" class="z-[999999] w-auto h-[64px] fixed top-[-100%] right-0 bg-[#17212b] flex justify-start items-center p-[20px]">
+                                <button class="deleteBtn text-[#fff] bg-[#2b5278] flex justify-center items-center gap-[4px] p-[8px_17px] rounded-md font-[600] ">
+                                    Delete <i class="bx bx-trash"></i>
+                                </button>
+                            </div>
+                        <div class="z-20 relative flex justify-between items-center w-full p-3 bg-[#17212b] border-b border-[#00000065]">
+
                             <div class="flex justify-start items-center gap-[10px]">
                                 <!-- User avatar -->
                                 <div class="w-[40px] h-[40px] overflow-hidden rounded-full cursor-pointer">
-                                    <img id="circleAvatar" src="${clickedUser.avatar}" alt=""/>
+                                    <img id="circleAvatar" src="${clickedUser?.avatar}" alt=""/>
                                 </div>
                                 <!-- User name -->
                                 <div class="flex flex-col justify-center flex-1 overflow-hidden cursor-pointer">
                                     <h1 class="overflow-hidden text-base font-medium leading-tight text-white whitespace-no-wrap">
-                                        ${clickedUser.username}
+                                        ${clickedUser?.username}
                                     </h1>
                                     <p id="typing" class="text-[12px] leading-tight text-green-500">online</p>
                                 </div>
@@ -127,90 +133,85 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                         </form>
                     `
 
-                    chatBox.innerHTML = ""
-                    chatBox.append(newChatDiv)
+                chatBox.innerHTML = ""
+                chatBox.append(newChatDiv)
 
-                    const messageForm = document.getElementById("messageForm")
-                    const messageText = document.getElementById("messageText")
-                    const typing = document.getElementById("typing")
+                const messageForm = document.getElementById("messageForm")
+                const messageText = document.getElementById("messageText")
+                const typing = document.getElementById("typing")
 
-                    let typingTimeout
-                    messageText.addEventListener("input", () => {
-                        typing.textContent = "typing..."
+                let typingTimeout
+                messageText.addEventListener("keyup", () => {
+                    typing.textContent = "typing..."
+                    clearTimeout(typingTimeout)
+                    typingTimeout = setTimeout(() => {
+                        typing.textContent = "online"
+                    }, 1000)
+                })
 
-                        clearTimeout(typingTimeout)
+                // Send new message
+                messageForm.addEventListener("submit", (e) => {
+                    e.preventDefault()
+                    const currentTime = new Date()
+                    const newMessage = {
+                        message: messageText.value.trim(),
+                        time: currentTime,
+                        senderId: userId,
+                        receiverId: clickedUserId,
+                    }
 
-                        typingTimeout = setTimeout(() => {
-                            typing.textContent = "online"
-                        }, 1000)
-                    })
-
-                    // Send new message
-                    messageForm.addEventListener("submit", (e) => {
-                        e.preventDefault()
-                        const currentTime = new Date()
-                        const newMessage = {
-                            message: messageText.value.trim(),
-                            time: currentTime,
-                            senderId: userId,
-                            receiverId: clickedUserId,
+                    fetch(
+                        "https://6784a0ac1ec630ca33a4f300.mockapi.io/message",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(newMessage),
                         }
+                    )
+                        .then((res) => res.json())
+                        .then(() => {
+                            messageText.value = ""
+                            showMessages()
+                        })
+                        .catch((err) => console.log(err))
+                })
 
-                        fetch(
-                            "https://6784a0ac1ec630ca33a4f300.mockapi.io/message",
-                            {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(newMessage),
-                            }
-                        )
-                            .then((res) => res.json())
-                            .then(() => {
-                                messageText.value = ""
-                                showMessages()
-                            })
-                            .catch((err) => console.log(err))
-                    })
+                const messageBox = document.getElementById("messageBox")
+                let lastMessageId = 0
 
-                    const messageBox = document.getElementById("messageBox")
-                    let lastMessageId = 0
+                function showMessages() {
+                    fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/message")
+                        .then((res) => res.json())
+                        .then((messages) => {
+                            const filteredMessages = messages.filter(
+                                (e) =>
+                                    (e.senderId == userId &&
+                                        e.receiverId == clickedUserId) ||
+                                    (e.senderId == clickedUserId &&
+                                        e.receiverId == userId)
+                            )
 
-                    function showMessages() {
-                        fetch(
-                            "https://6784a0ac1ec630ca33a4f300.mockapi.io/message"
-                        )
-                            .then((res) => res.json())
-                            .then((messages) => {
-                                const filteredMessages = messages.filter(
-                                    (e) =>
-                                        (e.senderId == userId &&
-                                            e.receiverId == clickedUserId) ||
-                                        (e.senderId == clickedUserId &&
-                                            e.receiverId == userId)
-                                )
+                            filteredMessages.forEach((value) => {
+                                if (value.id > lastMessageId) {
+                                    const messageTimeFormat = new Date(
+                                        value.time
+                                    ).toLocaleTimeString([], {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        hourCycle: "h23",
+                                    })
 
-                                filteredMessages.forEach((value) => {
-                                    if (value.id > lastMessageId) {
-                                        const messageTimeFormat = new Date(
-                                            value.time
-                                        ).toLocaleTimeString([], {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                            hourCycle: "h23",
-                                        })
-
-                                        let messageP =
-                                            document.createElement("p")
-                                        if (value.senderId == clickedUserId) {
-                                            messageP.classList.add(
-                                                "otherMessage"
-                                            )
-                                        } else {
-                                            messageP.classList.add("ownMessage")
-                                        }
-                                        messageP.innerHTML = `
+                                    let messageP = document.createElement("p")
+                                    if (value.senderId == clickedUserId) {
+                                        messageP.classList.add("otherMessage")
+                                        messageP.id = value.id
+                                    } else {
+                                        messageP.classList.add("ownMessage")
+                                        messageP.id = value.id
+                                    }
+                                    messageP.innerHTML = `
                                             ${value.message}
                                             <span class="${
                                                 value.senderId == clickedUserId
@@ -218,20 +219,64 @@ fetch("https://6784a0ac1ec630ca33a4f300.mockapi.io/users")
                                                     : "otherMessageTime"
                                             }">${messageTimeFormat}</span>
                                         `
-                                        messageBox.appendChild(messageP)
-                                        messageBox.scrollTop =
-                                            messageBox.scrollHeight
-                                        lastMessageId = Math.max(
-                                            lastMessageId,
-                                            value.id
-                                        )
-                                    }
-                                })
-                            })
-                    }
+                                    messageBox.appendChild(messageP)
 
-                    showMessages()
+                                    let deleteBtnDiv =
+                                        document.getElementById("deleteBtnDiv")
+
+                                    messageP.addEventListener(
+                                        "dblclick",
+                                        () => {
+                                            messageP.classList.toggle(
+                                                "deleteMessageBg"
+                                            )
+                                            deleteBtnDiv.classList.add(
+                                                "showBtn"
+                                            )
+
+                                            const selectedMessages =
+                                                document.querySelectorAll(
+                                                    ".deleteMessageBg"
+                                                )
+
+                                            deleteBtnDiv.addEventListener(
+                                                "click",
+                                                () => {
+                                                    selectedMessages.forEach(
+                                                        (message) => {
+                                                            const messageId =
+                                                                message.id
+
+                                                            fetch(
+                                                                `https://6784a0ac1ec630ca33a4f300.mockapi.io/message/${messageId}`,
+                                                                {
+                                                                    method: "DELETE",
+                                                                }
+                                                            )
+                                                                .then(() =>
+                                                                    message.remove()
+                                                                )
+                                                                .catch((err) =>
+                                                                    console.log(
+                                                                        err
+                                                                    )
+                                                                )
+                                                        }
+                                                    )
+
+                                                    deleteBtnDiv.classList.remove(
+                                                        "showBtn"
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    )
+                                }
+                            })
+                        })
                 }
+
+                showMessages()
             })
         })
     })
@@ -261,15 +306,92 @@ editPencil.addEventListener("click", () => {
         .then((res) => res.json())
         .then((res) => {
             editAvatarCurrentImg.src = res.avatar
-            ;(editName.value = res.username),
-                (editPhone.value = res.phoneNum),
-                (editPassword.value = res.password)
+            editName.value = res.username
+            editPhone.value = res.phoneNum
+            editPassword.value = res.password
         })
         .catch((err) => console.log(err))
 })
 
+// change src immediately
+editAvatarImg.addEventListener("change", () => {
+    const file = editAvatarImg.files[0]
+    const reader = new FileReader()
+    reader.onload = function (event) {
+        editAvatarCurrentImg.src = event.target.result
+    }
+    reader.readAsDataURL(file)
+})
+
 editForm.addEventListener("submit", (e) => {
     e.preventDefault()
+
+    const file = editAvatarImg.files[0]
+    let avatarUrl = editAvatarCurrentImg.src
+
+    if (file) {
+        const reader = new FileReader()
+        reader.onload = function (event) {
+            avatarUrl = event.target.result
+            updateUser(avatarUrl)
+        }
+        reader.readAsDataURL(file)
+    } else {
+        updateUser(avatarUrl)
+    }
+})
+
+function updateUser(avatar) {
+    fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            avatar: avatar,
+            username: editName.value.trim(),
+            password: editPassword.value.trim(),
+            phoneNum: editPhone.value.trim(),
+        }),
+    })
+        .then((res) => res.json())
+        .then(() => {
+            editAvatarCurrentImg.src = avatar
+            location.reload()
+        })
+        .catch((err) => console.log(err))
+}
+
+closeEditForm.forEach((el) => {
+    el.addEventListener("click", () => {
+        editFormDisplay.style.display = "none"
+    })
+})
+
+// delete avatar img
+const showAvatarImg = document.getElementById("showAvatarImg")
+const currentAvatarImg = document.getElementById("currentAvatarImg")
+const avatarImgDiv = document.getElementById("avatarImgDiv")
+const closeAvatarImgDiv = document.getElementById("closeAvatarImgDiv")
+const deleteAvatarImgBtn = document.getElementById("deleteAvatarImgBtn")
+
+showAvatarImg.addEventListener("click", () => {
+    avatarImgDiv.style.display = "flex"
+    fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
+        .then((res) => res.json())
+        .then((res) => {
+            currentAvatarImg.src = res.avatar
+        })
+        .catch((err) => console.log(err))
+})
+
+closeAvatarImgDiv.addEventListener("click", () => {
+    avatarImgDiv.style.display = "none"
+})
+
+deleteAvatarImgBtn.addEventListener("click", () => {
+    const defaultAvatarUrl =
+        "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
 
     fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`, {
         method: "PUT",
@@ -277,20 +399,16 @@ editForm.addEventListener("submit", (e) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            username: editName.value.trim(),
-            password: editPassword.value.trim(),
-            phoneNum: editPhone.value.trim()
+            avatar: defaultAvatarUrl,
         }),
     })
         .then((res) => res.json())
         .then((res) => {
-            location.reload()
+            if (res.avatar === defaultAvatarUrl) {
+                alert("Avatar successfully deleted")
+                currentAvatarImg.src = defaultAvatarUrl
+                location.reload()
+            }
         })
         .catch((err) => console.log(err))
-})
-
-closeEditForm.forEach((el) => {
-    el.addEventListener("click", () => {
-        editFormDisplay.style.display = "none"
-    })
 })
