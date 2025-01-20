@@ -106,3 +106,6 @@ button, select, input {
 .showBtn {
     top: 0;
 }
+.deleteContactPopup {
+    @apply h-[100vh] w-full bg-[#000000a5] backdrop-blur-[5px] flex justify-center items-center fixed top-0 left-0 z-[9999999];
+}

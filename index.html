@@ -26,16 +26,16 @@
                         class="text-[#fff] cursor-pointer hover:text-[#2b5278] flex justify-center items-center">
                         <i class='bx bx-menu text-[30px]'></i>
                     </label>
-                    <div class="relative flex items-center w-full pl-2 overflow-hidden text-[#fff]">
+                    <form id="searchUserForm" class="relative flex items-center w-full pl-2 overflow-hidden text-[#fff]">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                             <button type="submit" class="p-1 focus:shadow-none">
                                 <i class='bx bx-search-alt-2'></i>
                             </button>
                         </span>
-                        <input type="text"
+                        <input type="text" id="searchUserFormInput"
                             class="w-full py-2 pl-12 text-sm text-white bg-[#242f3d] border border-transparent appearance-none rounded-tg focus:border-blue-500  focus:shadow-outline-blue"
                             style="border-radius: 25px" placeholder="Search...">
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -87,7 +87,7 @@
 
 
             <div class="fixed bottom-0 right-0 z-40 mb-6 mr-4">
-                <button
+                <button id="addContactModalOpenBtn"
                     class="flex items-center justify-center w-12 h-12 mr-3 text-xl font-semibold text-white bg-blue-500 rounded-full flex-no-shrink">
                     <i class="bx bxs-pencil"></i>
                 </button>
@@ -103,7 +103,6 @@
         </div>
 
     </div>
-
 
     <!-- sidebar profile -->
     <input type="checkbox" name="" id="left" class="hidden">
@@ -136,12 +135,17 @@
             </div>
 
             <!-- avatar box -->
-            <div id="avatarImgDiv" class="hidden h-[100vh] w-full justify-center items-center fixed top-0 left-0 bg-[#000000b9] backdrop-blur-[5px] z-[999999]">
-                <i id="closeAvatarImgDiv" class="bx bx-x text-white absolute top-[20px] right-[20px] text-[40px] cursor-pointer"></i>
-                
-                <img id="currentAvatarImg" src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt="" class="h-[80%] w-[80%] object-contain">
-                
-                <button id="deleteAvatarImgBtn" class="bg-[#2b5278] p-[5px] flex justify-center items-center gap-[4px] font-[500] rounded-md cursor-pointer absolute bottom-[20px] right-[20px]">
+            <div id="avatarImgDiv"
+                class="hidden h-[100vh] w-full justify-center items-center fixed top-0 left-0 bg-[#000000b9] backdrop-blur-[5px] z-[999999]">
+                <i id="closeAvatarImgDiv"
+                    class="bx bx-x text-white absolute top-[20px] right-[20px] text-[40px] cursor-pointer"></i>
+
+                <img id="currentAvatarImg"
+                    src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                    alt="" class="h-[80%] w-[80%] object-contain">
+
+                <button id="deleteAvatarImgBtn"
+                    class="bg-[#2b5278] p-[5px] flex justify-center items-center gap-[4px] font-[500] rounded-md cursor-pointer absolute bottom-[20px] right-[20px]">
                     Delete avatar <i class="bx bx-trash"></i>
                 </button>
             </div>
@@ -180,9 +184,6 @@
         </button>
     </div>
 
-
-
-
     <!-- edit form -->
     <div id="editFormDisplay"
         class="h-[100vh] w-full hidden justify-center items-center bg-[#0000009c] backdrop-blur-[7px] z-[999999] fixed left-0 top-0">
@@ -195,8 +196,8 @@
             <div class="self-center relative">
                 <div class="h-[130px] w-[130px] rounded-full overflow-hidden">
                     <img id="editAvatarCurrentImg"
-                        src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg" alt=""
-                        class="h-full w-full object-cover">
+                        src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                        alt="" class="h-full w-full object-cover">
                 </div>
                 <label for="editAvatarImg"
                     class="absolute bottom-0 right-[10px] border cursor-pointer h-[35px] w-[35px] bg-[#2b5278] flex justify-center items-center rounded-full text-white">
@@ -234,6 +235,34 @@
                 class="bg-[#2b5278] text-white p-[10px] rounded-md text-[17px] font-[500] hover:bg-[#1c3957]">Save</button>
 
         </form>
+
+    </div>
+
+
+    <!-- add contact modal -->
+    <div id="addContactModal"
+        class="h-[100vh] w-full hidden justify-center items-center bg-[#0000009c] backdrop-blur-[7px] z-[999999] fixed left-0 top-0">
+        <div id="formContainer" class="w-[400px] p-[20px] rounded-lg bg-[#17212b] flex flex-col gap-[20px]">
+            <form id="addContactForm" class="w-full flex justify-between items-center gap-[10px]">
+                <input required id="searchByPhone" class="w-full border border-[#2b5278] text-white rounded-md p-[10px]
+                bg-transparent flex-[8]" type="text" placeholder="phone number">
+                <button
+                    class="bg-[#2b5278] p-[10px] rounded-md text-white active:scale-[.98] hover:bg-[#336ca5] transition duration-[.2s] flex-1"
+                    type="submit"><i class="bx bx-search"></i></button>
+            </form>
+
+            <div id="searchResultBox" class="flex flex-col gap-[4px]">
+                <div id="searchSkeleton" role='status' class='hidden max-w-sm animate-pulse p-[10px]'>
+                    <div class='flex-shrink-0'>
+                        <span class='flex justify-center items-center bg-gray-300 rounded-full w-12 h-12 '></span>
+                    </div>
+                    <div class='ml-4 mt-2 w-full flex flex-col justify-center items-end'>
+                        <h3 class='h-3 bg-gray-300 rounded-full  w-[50%] mb-4'></h3>
+                        <p class='h-2 bg-gray-300 rounded-full w-[70%] mb-2.5'></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
