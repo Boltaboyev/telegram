@@ -20,7 +20,7 @@ fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
     .then((res) => res.json())
     .then((user) => {
         if (user.avatar) {
-            ownAvatar.src = user.avatar
+            ownAvatar.src = user.avatar[0]
             userInfoName.textContent = user.username
             userInfoBottomName.innerHTML = `@${user?.username}`
             userTel.textContent = user.phoneNum
@@ -423,7 +423,7 @@ function updateSidebarUsers() {
                                 Delete <i class="bx bx-trash"></i>
                             </button>
                         </div>
-                        <div class="z-20 relative flex justify-between items-center w-full p-3 bg-[#17212b] border-b border-[#00000065]">
+                        <div class="relative flex justify-between items-center w-full p-3 bg-[#17212b] border-b border-[#00000065]">
                             <div class="flex justify-start items-center gap-[10px]">
                                 <div class="w-[40px] h-[40px] overflow-hidden rounded-full cursor-pointer">
                                     <img id="circleAvatar" src="${clickedUser.avatar}" alt=""/>
@@ -516,24 +516,150 @@ function updateSidebarUsers() {
                                     })
 
                                     const messageP = document.createElement("p")
+                                    const isOwnMessage =
+                                        message.senderId != clickedUserId
                                     messageP.classList.add(
-                                        message.senderId == clickedUserId
-                                            ? "otherMessage"
-                                            : "ownMessage"
+                                        isOwnMessage
+                                            ? "ownMessage"
+                                            : "otherMessage"
                                     )
                                     messageP.id = message.id
 
                                     messageP.innerHTML = `
                     ${message.message}
                     <span class="${
-                        message.senderId == clickedUserId
-                            ? "ownMessageTime"
-                            : "otherMessageTime"
+                        isOwnMessage ? "ownMessageTime" : "otherMessageTime"
                     }">${messageTimeFormat}</span>
                 `
+
                                     messageBox.append(messageP)
-                                    let deleteBtnDiv =
+
+                                    const deleteBtnDiv =
                                         document.getElementById("deleteBtnDiv")
+
+                                    messageP.addEventListener(
+                                        "dblclick",
+                                        () => {
+                                            const editIcon =
+                                                messageP.querySelector(
+                                                    ".editMesPen"
+                                                )
+                                            if (editIcon) {
+                                                editIcon.remove()
+                                            } else {
+                                                const newEditIcon =
+                                                    document.createElement("i")
+                                                newEditIcon.classList.add(
+                                                    "bx",
+                                                    "bx-pencil",
+                                                    "editMesPen",
+                                                    "absolute",
+                                                    "cursor-pointer"
+                                                )
+
+                                                if (isOwnMessage) {
+                                                    newEditIcon.style.left =
+                                                        "-15px"
+                                                    newEditIcon.style.bottom =
+                                                        "-5px"
+                                                } else {
+                                                    newEditIcon.style.right =
+                                                        "-15px"
+                                                    newEditIcon.style.bottom =
+                                                        "-5px"
+                                                }
+
+                                                messageP.append(newEditIcon)
+
+                                                newEditIcon.addEventListener(
+                                                    "click",
+                                                    () => {
+                                                        const messageText =
+                                                            message.message
+                                                        const input =
+                                                            document.createElement(
+                                                                "input"
+                                                            )
+                                                        input.classList.add(
+                                                            "editMesInput"
+                                                        )
+                                                        input.value =
+                                                            messageText
+                                                        messageP.innerHTML = ""
+                                                        messageP.append(input)
+
+                                                        const saveButton =
+                                                            document.createElement(
+                                                                "button"
+                                                            )
+                                                        saveButton.innerText =
+                                                            "Save"
+                                                        messageP.append(
+                                                            saveButton
+                                                        )
+
+                                                        saveButton.addEventListener(
+                                                            "click",
+                                                            () => {
+                                                                const editedMessage =
+                                                                    input.value
+                                                                const editedTime =
+                                                                    new Date().toISOString()
+
+                                                                fetch(
+                                                                    `https://6784a0ac1ec630ca33a4f300.mockapi.io/message/${message.id}`,
+                                                                    {
+                                                                        method: "PUT",
+                                                                        headers:
+                                                                            {
+                                                                                "Content-Type":
+                                                                                    "application/json",
+                                                                            },
+                                                                        body: JSON.stringify(
+                                                                            {
+                                                                                message:
+                                                                                    editedMessage,
+                                                                                time: editedTime,
+                                                                            }
+                                                                        ),
+                                                                    }
+                                                                )
+                                                                    .then(
+                                                                        () => {
+                                                                            messageP.innerHTML = `
+                                            ${editedMessage}
+                                            <span class="${
+                                                isOwnMessage
+                                                    ? "ownMessageTime"
+                                                    : "otherMessageTime"
+                                            }">edited ${new Date(
+                                                                                editedTime
+                                                                            ).toLocaleTimeString(
+                                                                                [],
+                                                                                {
+                                                                                    hour: "2-digit",
+                                                                                    minute: "2-digit",
+                                                                                    hourCycle:
+                                                                                        "h23",
+                                                                                }
+                                                                            )}</span>
+                                        `
+                                                                        }
+                                                                    )
+                                                                    .catch(
+                                                                        (err) =>
+                                                                            console.log(
+                                                                                err
+                                                                            )
+                                                                    )
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    )
+
                                     messageP.addEventListener(
                                         "dblclick",
                                         () => {
@@ -597,3 +723,28 @@ function updateSidebarUsers() {
 }
 
 updateSidebarUsers()
+
+
+// swiper
+fetch(`https://6784a0ac1ec630ca33a4f300.mockapi.io/users/${userId}`)
+    .then((res) => res.json())
+    .then((users) => {
+        const swiperWrapper = document.getElementById("swiperWrapper")
+        users.avatar.forEach((imgLink) => {
+            const swiperSlide = document.createElement("div")
+            swiperSlide.classList.add("swiper-slide")
+
+            swiperSlide.innerHTML = `<img src="${imgLink}" alt="" class="swiper-img" />`
+
+            swiperWrapper.append(swiperSlide)
+        })
+
+        new Swiper(".swiper-container", {
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        })
+    })
+    .catch((err) => console.log(err))

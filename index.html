@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="./src/output.css">
 
     <link rel="shortcut icon" href="./assets/img/fav.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 </head>
 
 <body class="h-screen overflow-hidden flex items-center justify-center">
@@ -26,7 +28,8 @@
                         class="text-[#fff] cursor-pointer hover:text-[#2b5278] flex justify-center items-center">
                         <i class='bx bx-menu text-[30px]'></i>
                     </label>
-                    <form id="searchUserForm" class="relative flex items-center w-full pl-2 overflow-hidden text-[#fff]">
+                    <form id="searchUserForm"
+                        class="relative flex items-center w-full pl-2 overflow-hidden text-[#fff]">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-4">
                             <button type="submit" class="p-1 focus:shadow-none">
                                 <i class='bx bx-search-alt-2'></i>
@@ -140,9 +143,14 @@
                 <i id="closeAvatarImgDiv"
                     class="bx bx-x text-white absolute top-[20px] right-[20px] text-[40px] cursor-pointer"></i>
 
-                <img id="currentAvatarImg"
-                    src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                    alt="" class="h-[80%] w-[80%] object-contain">
+                <div class="flex justify-center items-center w-full h-full">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper" id="swiperWrapper">
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
 
                 <button id="deleteAvatarImgBtn"
                     class="bg-[#2b5278] p-[5px] flex justify-center items-center gap-[4px] font-[500] rounded-md cursor-pointer absolute bottom-[20px] right-[20px]">
@@ -268,6 +276,7 @@
 
 
     <script src="./js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 </body>
 
 </html>
